@@ -1,4 +1,13 @@
-export class Alpr {
+/**
+ * AWS Lambda Proxy Router
+ */
+export default class Alpr {
+  /**
+   * Adds all the AWS Lambda handler function parameters to the current instance for the router to
+   * match with.
+   *
+   * @return {void}
+   */
   constructor(data) {
     this.routeMatched = false;
     this.event = data.event;
@@ -32,7 +41,12 @@ export class Alpr {
     }
 
     this.routeMatched = true;
-    return params.handler({}, this.response);
+
+    // A combination of the event and context object are passed to the handler function.
+    const handlerParameters = Object.assign({}, this.event);
+    handlerParameters.context = this.context;
+
+    return params.handler(handlerParameters, this.response);
   }
 
   /**
@@ -54,21 +68,63 @@ export class Alpr {
     let resourceMatched = false;
     let methodMatched = false;
 
-    methodMatched = params.method.indexOf(this.event.httpMethod) > -1;
-    resourceMatched = params.path.indexOf(this.event.resource) > -1;
+    methodMatched = Alpr.inArrayOrIsString(this.event.httpMethod, params.method);
+    resourceMatched = Alpr.inArrayOrIsString(this.event.resource, params.path);
 
     return (methodMatched && resourceMatched);
   }
 
+  /**
+   * Retusn true when the needle is in the haystack Array or strictly when the needle is equal to
+   * the haystack.
+   *
+   * @param {string} needle
+   * Value to find in the array or to match on the string.
+   *
+   * @param {string|Array} haystack
+   * If this is an array we check if the array contains the needle, if this is a string we check if
+   * the values are strictly equal.
+   *
+   * @return {boolean}
+   * Returns true when the haystack is not an array and it is strictly equal to the needle. Or when
+   * the haystack is an array and the needle includes the value.
+   */
+  static inArrayOrIsString(needle, haystack) {
+    if (Array.isArray(haystack)) {
+      return haystack.includes(needle);
+    }
+
+    return haystack === needle;
+  }
 
   /**
    * Should be used to send a response back to the client, acting as a wrapper for Lambda's callback
    * function, except this only sends data as the second parameter.
    *
    * @param {mixed} data
-   * The response to send back to the client.
+   * The response to send back to the client. Should follow the structure for lambda proxy responses
+   * outlined here: https://goo.gl/pI0ApC. If the response structure is not followed, a default of
+   * no headers and a status code of 200 will be applied with the body being a json stringified
+   * result of the whole data parameter.
+   *
+   * @param {number} data.statusCode
+   * The HTTP status code that the response should be. By default this will be set to 200.
+   *
+   * @param {Object} data.headers
+   * Any headers to return with the API result.
+   *
+   * @param {mixed} body
+   * Payload to send back as the API response. This will be json stringified.
    */
   response(data) {
-    return this.callback(null, data);
+    const responseData = {};
+
+    if (data) {
+      responseData.statusCode = Number.isInteger(data.statusCode) ? data.statusCode : 200;
+      responseData.headers = typeof data.headers === 'object' ? data.headers : {};
+      responseData.body = JSON.stringify(data.body ? data.body : data);
+    }
+
+    return this.callback(null, responseData);
   }
 }

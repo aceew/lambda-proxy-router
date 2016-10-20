@@ -4,7 +4,8 @@
   "description": "A hapi inspired router for AWS Lambda proxy functions",
   "main": "index.js",
   "scripts": {
-    "test": "ava test"
+    "test": "npm run-script lint && ava test",
+    "lint": "eslint src/*.js test/*.js"
   },
   "repository": {
     "url": "na",
