@@ -4,7 +4,7 @@
   "description": "A hapi inspired router for AWS Lambda proxy functions",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "ava test"
   },
   "repository": {
     "url": "na",
@@ -20,10 +20,20 @@
   "license": "ISC",
   "dependencies": {},
   "devDependencies": {
+    "ava": "^0.16.0",
+    "babel": "^6.5.2",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-register": "^6.16.3",
     "eslint": "^3.8.1",
     "eslint-config-airbnb": "^12.0.0",
     "eslint-plugin-import": "^1.16.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.4.1"
+  },
+  "ava": {
+    "babel": "inherit",
+    "require": [
+      "babel-register"
+    ]
   }
 }

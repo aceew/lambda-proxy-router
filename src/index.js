@@ -22,11 +22,11 @@ export class Alpr {
    * Function to be called when the route is matched. Should take two parameters, those being
    * request and response.
    *
-   * @return {callback}
+   * @return {Callback}
    * Calls the handler method specified in the route information.
    */
   route(params) {
-    if (this.routeMatched) {
+    if (this.routeMatched || !this.routeMatcher(params)) {
       return;
     }
 

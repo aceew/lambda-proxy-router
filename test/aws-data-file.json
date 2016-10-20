@@ -1,0 +1,50 @@
+{
+  "event": {
+    "resource": "/alpr-test/{testVar}",
+    "path": "/alpr-test/testData",
+    "httpMethod": "POST",
+    "headers": null,
+    "queryStringParameters": {
+      "params+4": null,
+      "param1": "2"
+    },
+    "pathParameters": {
+      "testVar": "testData"
+    },
+    "stageVariables": null,
+    "requestContext": {
+      "accountId": "accountId",
+      "resourceId": "resourceId",
+      "stage": "test-invoke-stage",
+      "requestId": "test-invoke-request",
+      "identity": {
+        "cognitoIdentityPoolId": null,
+        "accountId": "accountId",
+        "cognitoIdentityId": null,
+        "caller": "callerid",
+        "apiKey": "test-invoke-api-key",
+        "sourceIp": "test-invoke-source-ip",
+        "cognitoAuthenticationType": null,
+        "cognitoAuthenticationProvider": null,
+        "userArn": "arn:aws:iam::accountId:user/aceew",
+        "userAgent": "userAgent",
+        "user": "userId"
+      },
+      "resourcePath": "/alpr-test/{testVar}",
+      "httpMethod": "POST",
+      "apiId": "apiId"
+    },
+    "body": {"request": "body"}
+  },
+  "context": {
+    "callbackWaitsForEmptyEventLoop": true,
+    "logGroupName": "/aws/lambda/alpr-test",
+    "logStreamName": "2016/10/20/[$LATEST]logstreamId",
+    "functionName": "alpr-test",
+    "memoryLimitInMB": "1536",
+    "functionVersion": "$LATEST",
+    "invokeid": "invokeId",
+    "awsRequestId": "awsRequestId",
+    "invokedFunctionArn": "arn:aws:lambda:eu-west-1:userId:function:alpr-test"
+  }
+}
