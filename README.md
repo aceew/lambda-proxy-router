@@ -67,9 +67,9 @@ Routes are used to match a request to a given handler and are easily defined by 
 
 | Key | Type | Value |
 |---|---|---|---|
-| method | string/array | The http method the route should match for. More than one can be specified
-| path | string/array | This should match the value of the route specified in API gateway including path parameter names
-| [handler](#handler) | function | The handler function for the given route. Should take two parameters of [request](#request) and [response](#response).
+| method | string/Array | The http method the route should match for. More than one can be specified
+| path | string/Array | This should match the value of the route specified in API gateway including path parameter names
+| [handler](#handler) | Function | The handler function for the given route. Should take two parameters of [request](#request) and [response](#response).
 
 Before creating a route the router must be instanced. This is done like so:
 
@@ -83,6 +83,43 @@ An example of defining routes that match on single and multiple endpoints can be
 It is important to note that only one route can be matched per instance. In cases where the route and method is the same in multiple route definitions only the first route will call the handler, the second will be ignored.
 
 ## Handler
+The handler is the method that get called when a route matches. It accepts two parameters [request](#request) and [response](#response).
+
 ## Request
+The request parameter is an object that contains details about the request, everything that is sent through the event and context parameters in the Lambda function is accessible through this object.
+
+Here's all the keys that are currently available in the request object:
+
+| Key | Type | Value
+|---|---|---
+| request.contextObject | Object | The whole lambda context object.
+| request.eventObject | Object | The whole lambda event object.
+| request.stageVariables | Object | The API Gateway stage variables.
+| request.queryStringParameters | Object | Query string parameters.
+| request.body | Object | The JSON parsed body.
+| request.rawBody | string | The raw body input.
+| request.pathParameters | Object | Request path parameters.
+| request.headers | Object | Request headers.
+| request.allParams | Object | The pathParameters, queryStringParameters and body, merged into one object. Note if variables have identical names, queryStringParameters will overwrite pathParameters and pathParameters will overwrite body.
+
+
 ## Response
+The response parameter is used to send a response back to API gateway. This method requires a parameter object to specify the body, headers and http status code. If none of these are specified, default values of empty headers, statusCode 200, and a stringified value of whatever was sent in the parameter.
+
+So `response("hello world")` would work out as:
+```
+{
+    statusCode: 200,
+    headers: {},
+    body: "hello world"
+}
+```
+
+The specific structure used here is what API Gateway requires to map the responses correctly.
+
 ## Contributing
+ - Start a feature branched from master
+ - Tests should be written for any new features in the test directory.
+ - Code should follow the installed style guide of airbnb.
+ - Tests and linting can be run with `npm test`.
+ - Once your feature is complete submit a PR to the master branch.
