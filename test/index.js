@@ -109,3 +109,69 @@ test('Route Class > throws an error when a callback function is not specified', 
     t.pass();
   }
 });
+
+test.cb(
+  'Route handler > calls back with the correct structure when an invalid one is returned',
+  (t) => {
+    t.plan(6);
+    const returnedString = 'Hello World!';
+
+    const lambdaCallback = (err, response) => {
+      t.is(typeof response, 'object');
+      t.is(response.statusCode, 200);
+      t.is(typeof response.headers, 'object');
+      t.deepEqual(response.headers, {});
+      t.is(typeof response.body, 'string');
+      t.is(JSON.parse(response.body), returnedString);
+      t.end();
+    };
+
+    const alprParams = Object.assign({}, data);
+    alprParams.callback = lambdaCallback;
+
+    const alprLocal = new Alpr(alprParams);
+    alprLocal.route({
+      method: data.event.httpMethod,
+      path: data.event.resource,
+      handler: (requestData, response) => response(returnedString),
+    });
+  }
+);
+
+test.cb(
+  'Route handler > calls back with the correct structure when the correct one is returned', (t) => {
+    t.plan(2);
+
+    const returnedResponse = {
+      statusCode: 400,
+      headers: {
+        data: 'field',
+      },
+      body: {
+        foo: 'bar',
+        bar: 'foo',
+      },
+    };
+
+    const lambdaCallback = (err, response) => {
+      t.is(typeof response, 'object');
+
+      // The returned response will be deep equal once the body has been parsed.
+      const parsedResponse = response;
+      parsedResponse.body = JSON.parse(parsedResponse.body);
+
+      t.deepEqual(parsedResponse, returnedResponse);
+      t.end();
+    };
+
+    const alprParams = Object.assign({}, data);
+    alprParams.callback = lambdaCallback;
+
+    const alprLocal = new Alpr(alprParams);
+    alprLocal.route({
+      method: data.event.httpMethod,
+      path: data.event.resource,
+      handler: (requestData, response) => response(returnedResponse),
+    });
+  }
+);
