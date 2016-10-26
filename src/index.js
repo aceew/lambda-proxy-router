@@ -1,3 +1,5 @@
+import Request from './request';
+
 /**
  * AWS Lambda Proxy Router
  */
@@ -8,11 +10,15 @@ export default class Alpr {
    *
    * @return {void}
    */
-  constructor(data) {
+  constructor(data = {}) {
     this.routeMatched = false;
-    this.event = data.event;
-    this.context = data.context;
+    this.event = data.event || {};
+    this.context = data.context || {};
     this.callback = data.callback;
+
+    if (typeof this.callback !== 'function') {
+      throw new Error('A callback must be specified.');
+    }
   }
 
   /**
@@ -42,11 +48,41 @@ export default class Alpr {
 
     this.routeMatched = true;
 
-    // A combination of the event and context object are passed to the handler function.
-    const handlerParameters = Object.assign({}, this.event);
-    handlerParameters.context = this.context;
+    const request = new Request(this.event, this.context);
+    const instancedClass = this;
 
-    return params.handler(handlerParameters, this.response);
+    /**
+     * Should be used to send a response back to the client, acting as a wrapper for Lambda's
+     * callback function, except this only sends data as the second parameter.
+     *
+     * @param {mixed} data
+     * The response to send back to the client. Should follow the structure for lambda proxy
+     * responses outlined here: https://goo.gl/pI0ApC. If the response structure is not followed, a
+     * default of no headers and a status code of 200 will be applied with the body being a json
+     * stringified result of the whole data parameter.
+     *
+     * @param {number} data.statusCode
+     * The HTTP status code that the response should be. By default this will be set to 200.
+     *
+     * @param {Object} data.headers
+     * Any headers to return with the API result.
+     *
+     * @param {mixed} body
+     * Payload to send back as the API response. This will be json stringified.
+     */
+    const response = (data) => {
+      const responseData = {};
+
+      if (data) {
+        responseData.statusCode = Number.isInteger(data.statusCode) ? data.statusCode : 200;
+        responseData.headers = typeof data.headers === 'object' ? data.headers : {};
+        responseData.body = JSON.stringify(data.body ? data.body : data);
+      }
+
+      return instancedClass.callback(null, responseData);
+    };
+
+    return params.handler(request, response);
   }
 
   /**
@@ -95,36 +131,5 @@ export default class Alpr {
     }
 
     return haystack === needle;
-  }
-
-  /**
-   * Should be used to send a response back to the client, acting as a wrapper for Lambda's callback
-   * function, except this only sends data as the second parameter.
-   *
-   * @param {mixed} data
-   * The response to send back to the client. Should follow the structure for lambda proxy responses
-   * outlined here: https://goo.gl/pI0ApC. If the response structure is not followed, a default of
-   * no headers and a status code of 200 will be applied with the body being a json stringified
-   * result of the whole data parameter.
-   *
-   * @param {number} data.statusCode
-   * The HTTP status code that the response should be. By default this will be set to 200.
-   *
-   * @param {Object} data.headers
-   * Any headers to return with the API result.
-   *
-   * @param {mixed} body
-   * Payload to send back as the API response. This will be json stringified.
-   */
-  response(data) {
-    const responseData = {};
-
-    if (data) {
-      responseData.statusCode = Number.isInteger(data.statusCode) ? data.statusCode : 200;
-      responseData.headers = typeof data.headers === 'object' ? data.headers : {};
-      responseData.body = JSON.stringify(data.body ? data.body : data);
-    }
-
-    return this.callback(null, responseData);
   }
 }

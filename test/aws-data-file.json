@@ -3,7 +3,9 @@
     "resource": "/alpr-test/{testVar}",
     "path": "/alpr-test/testData",
     "httpMethod": "POST",
-    "headers": null,
+    "headers": {
+      "x-header": "header value"
+    },
     "queryStringParameters": {
       "params+4": null,
       "param1": "2"
@@ -11,7 +13,9 @@
     "pathParameters": {
       "testVar": "testData"
     },
-    "stageVariables": null,
+    "stageVariables": {
+      "stage": "variable"
+    },
     "requestContext": {
       "accountId": "accountId",
       "resourceId": "resourceId",
@@ -34,7 +38,7 @@
       "httpMethod": "POST",
       "apiId": "apiId"
     },
-    "body": {"request": "body"}
+    "body": "{\"request\": \"body\"}"
   },
   "context": {
     "callbackWaitsForEmptyEventLoop": true,

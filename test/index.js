@@ -1,5 +1,7 @@
 import Alpr from './../src/index';
 import data from './aws-data-file.json';
+
+data.callback = () => {};
 // eslint-disable-next-line
 import test from 'ava';
 
@@ -79,22 +81,21 @@ test('Routing > Returns false when no route is found', (t) => {
 });
 
 test.cb(
-  'Routing > Calls the handler function when a route matches with the merged event and context',
+  'Routing > Calls the handler function when a route matches',
   (t) => {
     const alprLocal = new Alpr(data);
-    t.plan(4);
+    t.plan(2);
 
     alprLocal.route({
       method: data.event.httpMethod,
       path: data.event.resource,
-      handler: (requestData, callback) => {
+      handler: (requestData, response) => {
         t.is(typeof requestData, 'object');
-        t.is(typeof requestData.context, 'object');
-        t.deepEqual(requestData.context, data.context);
         t.is(typeof callback, 'function');
-
         t.end();
       },
     });
   }
 );
+
+test
