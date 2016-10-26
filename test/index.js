@@ -55,7 +55,7 @@ test('Route Matching > does not match when the strings do not contain the method
   t.is(result, false);
 });
 
-test('Routing > Returns false when a route has already been made', (t) => {
+test('Routing > returns false when a route has already been made', (t) => {
   // Use a new instance because we're relying on instance variables that can be changed.
   const alprLocal = new Alpr(data);
 
@@ -71,7 +71,7 @@ test('Routing > Returns false when a route has already been made', (t) => {
   t.is(result, false);
 });
 
-test('Routing > Returns false when no route is found', (t) => {
+test('Routing > returns false when no route is found', (t) => {
   const result = alprGlobal.route({
     method: '',
     path: '',
@@ -81,7 +81,7 @@ test('Routing > Returns false when no route is found', (t) => {
 });
 
 test.cb(
-  'Routing > Calls the handler function when a route matches',
+  'Routing > calls the handler function when a route matches',
   (t) => {
     const alprLocal = new Alpr(data);
     t.plan(2);
@@ -91,11 +91,21 @@ test.cb(
       path: data.event.resource,
       handler: (requestData, response) => {
         t.is(typeof requestData, 'object');
-        t.is(typeof callback, 'function');
+        t.is(typeof response, 'function');
         t.end();
       },
     });
   }
 );
 
-test
+test('Route Class > throws an error when a callback function is not specified', (t) => {
+  let alprCallbackError = '';
+
+  try {
+    alprCallbackError = new Alpr();
+  } catch (err) {
+    // Check the redefinition failed
+    t.is(alprCallbackError, '');
+    t.pass();
+  }
+});
