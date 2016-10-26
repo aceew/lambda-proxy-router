@@ -125,7 +125,7 @@ export default class Alpr {
    * Returns true when the haystack is not an array and it is strictly equal to the needle. Or when
    * the haystack is an array and the needle includes the value.
    */
-  static inArrayOrIsString(needle, haystack) {
+  static inArrayOrIsString(needle = '', haystack = []) {
     if (Array.isArray(haystack)) {
       return haystack.includes(needle);
     }
