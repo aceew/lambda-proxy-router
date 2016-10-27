@@ -1,6 +1,6 @@
 {
   "name": "aws-lambda-proxy-router",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A hapi inspired router for AWS Lambda proxy functions",
   "main": "index.js",
   "scripts": {

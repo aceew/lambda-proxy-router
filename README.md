@@ -1,6 +1,8 @@
 # aws-lambda-proxy-router
 > A hapi inspired router for AWS Lambda proxy functions
 
+The purpose of this package is to easily organize the mapping between your code and your API request within Lambda functions that have more then one single purpose. This takes away the need for the configuration of mapping templates and handles the standard event Amazon send through with Lambda functions with proxy configuration.
+
 ## Contents
 - [Usage](#usage)
 - [Defining Routes](#routes)
@@ -10,7 +12,6 @@
 - [Contributing](#contributing)
 
 ## Usage
-
 ### Add aws-lambda-proxy-router to your project
 ```console
 $ npm install --save aws-lambda-proxy-router
@@ -61,6 +62,8 @@ function handler(event, context, callback) {
 
 export { handler };
 ```
+### Setting up your endpoint in API Gateway
+Create your endpoint in API Gateway for the Lambda function and check the `Use Lambda Proxy integration` box. Then point your endpoint to the lambda function that has that route specified.
 
 ## Routes
 Routes are used to match a request to a given handler and are easily defined by the route method on the instance of the router. The route method takes one object parameter which should contain 3 keys.
