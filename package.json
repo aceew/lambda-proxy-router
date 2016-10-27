@@ -1,15 +1,15 @@
 {
-  "name": "aws-lambda-proxy-router",
+  "name": "alpr",
   "version": "0.1.0",
   "description": "A hapi inspired router for AWS Lambda proxy functions",
   "main": "index.js",
   "scripts": {
     "test": "npm run-script lint && ava test",
     "lint": "eslint src/*.js test/*.js",
-    "build": "babel src -d build && cp package.json build/package.json"
+    "build": "babel src -d build && cp package.json build/package.json && cp README.md build/README.md"
   },
   "repository": {
-    "url": "na",
+    "url": "https://github.com/aceew/lambda-proxy-router",
     "type": "git"
   },
   "keywords": [

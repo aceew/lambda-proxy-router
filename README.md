@@ -1,7 +1,7 @@
 # aws-lambda-proxy-router
 > A hapi inspired router for AWS Lambda proxy functions
 
-The purpose of this package is to easily organize the mapping between your code and your API request within Lambda functions that have more then one single purpose. This takes away the need for the configuration of mapping templates and handles the standard event Amazon send through with Lambda functions with proxy configuration. The desired affect of the package is to make it easier to build microservices that have multiple API Gateway endpoints 
+The purpose of this package is to easily organize the mapping between your code and your API request within Lambda functions that have more then one single purpose. This takes away the need for the configuration of mapping templates and handles the standard event Amazon send through with Lambda functions with proxy configuration. The desired affect of the package is to make it easier to build microservices that have multiple API Gateway endpoints
 
 ## Contents
 - [Usage](#usage)
@@ -14,17 +14,17 @@ The purpose of this package is to easily organize the mapping between your code 
 ## Usage
 ### Add aws-lambda-proxy-router to your project
 ```console
-$ npm install --save aws-lambda-proxy-router
+$ npm install --save alpr
 ```
 If you're using yarn:
 ```console
-$ yarn add aws-lambda-proxy-router
+$ yarn add alpr
 ```
 
 Lambda index handler:
 
 ```
-import Alpr from 'aws-lambda-proxy-router';
+import Alpr from 'alpr';
 
 function handler(event, context, callback) {
   const alpr = new Alpr(event, context, callback);
