@@ -1,7 +1,7 @@
 # aws-lambda-proxy-router
 > A hapi inspired router for AWS Lambda proxy functions
 
-The purpose of this package is to easily organize the mapping between your code and your API request within Lambda functions that have more then one single purpose. This takes away the need for the configuration of mapping templates and handles the standard event Amazon send through with Lambda functions with proxy configuration.
+The purpose of this package is to easily organize the mapping between your code and your API request within Lambda functions that have more then one single purpose. This takes away the need for the configuration of mapping templates and handles the standard event Amazon send through with Lambda functions with proxy configuration. The desired affect of the package is to make it easier to build microservices that have multiple API Gateway endpoints 
 
 ## Contents
 - [Usage](#usage)
