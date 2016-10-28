@@ -1,6 +1,9 @@
 # aws-lambda-proxy-router
 > A hapi inspired router for AWS Lambda proxy functions
 
+[![Coverage Status](https://coveralls.io/repos/github/aceew/lambda-proxy-router/badge.svg?branch=master)](https://coveralls.io/github/aceew/lambda-proxy-router?branch=master)
+[![Build Status](https://travis-ci.org/aceew/lambda-proxy-router.svg?branch=master)](https://travis-ci.org/aceew/lambda-proxy-router)
+
 The purpose of this package is to easily organize the mapping between your code and your API request within Lambda functions that have more then one single purpose. This takes away the need for the configuration of mapping templates and handles the standard event Amazon send through with Lambda functions with proxy configuration. The desired affect of the package is to make it easier to build microservices that have multiple API Gateway endpoints
 
 ## Contents
