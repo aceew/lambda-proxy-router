@@ -4,7 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/aceew/lambda-proxy-router/badge.svg?branch=master)](https://coveralls.io/github/aceew/lambda-proxy-router?branch=master)
 [![Build Status](https://travis-ci.org/aceew/lambda-proxy-router.svg?branch=master)](https://travis-ci.org/aceew/lambda-proxy-router)
 
-The purpose of this package is to easily organize the mapping between your code and your API request within Lambda functions that have more than one single purpose. This takes away the need for the configuration of mapping templates and handles the standard event Amazon send through with Lambda functions with proxy configuration. The desired effect of the package is to make it easier to build microservices that have multiple API Gateway endpoints.
+The purpose of this package is to easily organize the mapping between your code and your API request within Lambda functions that have more than one purpose. This takes away the need for the configuration of mapping templates and handles the standard event object that Amazon sends through with Lambda functions with proxy configuration. The desired effect of the package is to make it easier to build microservices that have multiple API Gateway endpoints.
 
 ## Contents
 - [Usage](#usage)
@@ -110,9 +110,27 @@ Here's all the keys that are currently available in the request object:
 
 
 ## Response
-The response parameter is used to send a response back to API gateway. This method requires a parameter object to specify the body, headers and http status code. If none of these are specified, default values of empty headers, statusCode 200, and a stringified value of whatever was sent in the parameter.
+The response parameter is used to send a response back to API gateway. This method requires a parameter object to specify the body, headers and http status code.
 
-So `response("hello world")` would work out as:
+| Key | Type | Value | Default
+|---|---|---
+| params | Object | Parameters object | {} |
+| params.statusCode | integer | The HTTP status code | 200
+| params.headers | Object | Any headers to be returned in the response. | {}
+| params.body | mixed | Your response body, whatever is specified will be `JSON.stringify`'d. If body is not set the body will be defined as the params object. | `JSON.stringify(params)`
+
+Here is the recommended way to call the response method.
+```
+response({
+    statusCode: 200,
+    headers: { "x-your-header": "header value" },
+    body: { "response-object-key": "data" },
+});
+```
+
+If any of the correct parameters are not specified, default values of empty headers, statusCode 200, and a stringified value of whatever was sent in the parameter for the body are used to make the response valid.
+
+So `response('hello world')` would work out as:
 ```
 {
     statusCode: 200,
