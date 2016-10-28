@@ -70,14 +70,12 @@ export default class Alpr {
      * @param {mixed} body
      * Payload to send back as the API response. This will be json stringified.
      */
-    const response = (data) => {
+    const response = (data = {}) => {
       const responseData = {};
 
-      if (data) {
-        responseData.statusCode = Number.isInteger(data.statusCode) ? data.statusCode : 200;
-        responseData.headers = typeof data.headers === 'object' ? data.headers : {};
-        responseData.body = JSON.stringify(data.body ? data.body : data);
-      }
+      responseData.statusCode = Number.isInteger(data.statusCode) ? data.statusCode : 200;
+      responseData.headers = typeof data.headers === 'object' ? data.headers : {};
+      responseData.body = JSON.stringify(data.body ? data.body : data);
 
       return instancedClass.callback(null, responseData);
     };

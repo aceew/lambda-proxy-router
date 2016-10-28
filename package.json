@@ -4,7 +4,7 @@
   "description": "A hapi inspired router for AWS Lambda proxy functions",
   "main": "index.js",
   "scripts": {
-    "test": "npm run-script lint && ava test",
+    "test": "npm run-script lint && nyc ava test",
     "lint": "eslint src/*.js test/*.js",
     "build": "babel src -d build && cp package.json build/package.json && cp README.md build/README.md"
   },
@@ -31,7 +31,8 @@
     "eslint-config-airbnb": "^12.0.0",
     "eslint-plugin-import": "^1.16.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
-    "eslint-plugin-react": "^6.4.1"
+    "eslint-plugin-react": "^6.4.1",
+    "nyc": "^8.3.2"
   },
   "ava": {
     "babel": "inherit",

@@ -4,7 +4,7 @@ import data from './aws-data-file.json';
 import test from 'ava';
 
 const requestGlobal = new Request(data);
-const requestNullGlobal = new Request({});
+const requestNullGlobal = new Request();
 
 test('Getting the context object', (t) => {
   const context = requestGlobal.contextObject;

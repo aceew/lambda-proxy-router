@@ -175,3 +175,30 @@ test.cb(
     });
   }
 );
+
+test.cb(
+  'Route handler > calls back with an empty object as the body when no params are provided',
+  (t) => {
+    t.plan(2);
+    const lambdaCallback = (err, response) => {
+      t.is(typeof response, 'object');
+      t.deepEqual(response.body, '{}');
+      t.end();
+    };
+
+    const alprParams = Object.assign({}, data);
+    alprParams.callback = lambdaCallback;
+
+    const alprLocal = new Alpr(alprParams);
+    alprLocal.route({
+      method: data.event.httpMethod,
+      path: data.event.resource,
+      handler: (requestData, response) => response(),
+    });
+  }
+);
+
+test('String Matching > will return false when no params are provided', (t) => {
+  // Just for default params
+  t.is(Alpr.inArrayOrIsString(), false);
+});
