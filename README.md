@@ -113,8 +113,8 @@ Here's all the keys that are currently available in the request object:
 The response parameter is used to send a response back to API gateway. This method requires a parameter object to specify the body, headers and http status code.
 
 | Key | Type | Value | Default
-|---|---|---
-| params | Object | Parameters object | {} |
+|---|---|---|---
+| params | Object | Parameters object | {}
 | params.statusCode | integer | The HTTP status code | 200
 | params.headers | Object | Any headers to be returned in the response. | {}
 | params.body | mixed | Your response body, whatever is specified will be `JSON.stringify`'d. If body is not set the body will be defined as the params object. | `JSON.stringify(params)`
