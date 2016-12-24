@@ -1,6 +1,6 @@
 {
   "name": "alpr",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A hapi inspired router for AWS Lambda proxy functions",
   "main": "index.js",
   "scripts": {
