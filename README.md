@@ -30,7 +30,7 @@ Lambda index handler:
 import Alpr from 'alpr';
 
 function handler(event, context, callback) {
-  const alpr = new Alpr(event, context, callback);
+  const alpr = new Alpr({ event, context, callback });
 
   alpr.route({
     method: 'GET',
@@ -39,7 +39,7 @@ function handler(event, context, callback) {
       response({
         statusCode: 200,
         headers: {},
-        body { hello: "world" }
+        body: { hello: "world" }
       });
     },
   });
@@ -57,7 +57,7 @@ function handler(event, context, callback) {
       response({
         statusCode: 200,
         headers: {},
-        body { hello: "world" }
+        body: { hello: "world" }
       });
     },
   });
