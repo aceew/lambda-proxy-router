@@ -48,7 +48,7 @@ export default class Alpr {
 
     this.routeMatched = true;
 
-    const request = new Request(this.event, this.context);
+    const request = new Request({ event: this.event, context: this.context });
     const instancedClass = this;
 
     /**
