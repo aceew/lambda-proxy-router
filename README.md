@@ -61,6 +61,15 @@ function handler(event, context, callback) {
       });
     },
   });
+
+  if (!alpr.routeMatched) {
+    // request resource did not match a route
+    callback({
+      statusCode: 404,
+      headers: {},
+      body: { message: "Route not found" }
+    });
+  }
 }
 
 export { handler };
