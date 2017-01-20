@@ -109,7 +109,7 @@ export default class Alpr {
   }
 
   /**
-   * Retusn true when the needle is in the haystack Array or strictly when the needle is equal to
+   * Return true when the needle is in the haystack Array or strictly when the needle is equal to
    * the haystack.
    *
    * @param {string} needle
