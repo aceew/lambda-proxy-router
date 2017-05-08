@@ -67,8 +67,11 @@ export default class Alpr {
      * @param {Object} data.headers
      * Any headers to return with the API result.
      *
-     * @param {mixed} body
+     * @param {mixed} data.body
      * Payload to send back as the API response. This will be json stringified.
+     *
+     * @param {boolean} data.isBase64Encoded
+     * Set this to true to return isBase64Encoded true on the response object.
      */
     const response = (data = {}) => {
       const responseData = {};
@@ -76,6 +79,9 @@ export default class Alpr {
       responseData.statusCode = Number.isInteger(data.statusCode) ? data.statusCode : 200;
       responseData.headers = typeof data.headers === 'object' ? data.headers : {};
       responseData.body = JSON.stringify(data.body ? data.body : data);
+      if (data.isBase64Encoded) {
+        responseData.isBase64Encoded = true;
+      }
 
       return instancedClass.callback(null, responseData);
     };
