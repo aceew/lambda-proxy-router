@@ -198,6 +198,51 @@ test.cb(
   }
 );
 
+test.cb(
+  'Route handler > returns isBase64Encoded on the response object when true in response data',
+  (t) => {
+    t.plan(3);
+    const lambdaCallback = (err, response) => {
+      t.is(typeof response, 'object');
+      t.deepEqual(response.body, '{}');
+      t.true(response.isBase64Encoded);
+      t.end();
+    };
+
+    const alprParams = Object.assign({}, data);
+    alprParams.callback = lambdaCallback;
+
+    const alprLocal = new Alpr(alprParams);
+    alprLocal.route({
+      method: data.event.httpMethod,
+      path: data.event.resource,
+      handler: (requestData, response) => response({ body: {}, isBase64Encoded: true }),
+    });
+  }
+);
+
+test.cb(
+  'Route handler > returns response object without isBase64Encoded when undefined in response data',
+  (t) => {
+    t.plan(2);
+    const lambdaCallback = (err, response) => {
+      t.is(typeof response, 'object');
+      t.not(response.isBase64Encoded, true);
+      t.end();
+    };
+
+    const alprParams = Object.assign({}, data);
+    alprParams.callback = lambdaCallback;
+
+    const alprLocal = new Alpr(alprParams);
+    alprLocal.route({
+      method: data.event.httpMethod,
+      path: data.event.resource,
+      handler: (requestData, response) => response(),
+    });
+  }
+);
+
 test('String Matching > will return false when no params are provided', (t) => {
   // Just for default params
   t.is(Alpr.inArrayOrIsString(), false);
