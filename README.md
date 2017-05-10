@@ -82,9 +82,9 @@ Routes are used to match a request to a given handler and are easily defined by 
 
 | Key | Type | Value |
 |---|---|---|---|
-| method | string/Array | The http method the route should match for. More than one can be specified
-| path | string/Array | This should match the value of the route specified in API gateway including path parameter names
-| [handler](#handler) | Function | The handler function for the given route. Should take two parameters of [request](#request) and [response](#response).
+| method | string/Array | The http method the route should match for. More than one can be specified |
+| path | string/Array | This should match the value of the route specified in API gateway including path parameter names |
+| [handler](#handler) | Function | The handler function for the given route. Should take two parameters of [request](#request) and [response](#response). |
 
 Before creating a route the router must be instanced. This is done like so:
 
