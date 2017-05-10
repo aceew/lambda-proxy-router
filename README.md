@@ -80,8 +80,8 @@ Create your endpoint in API Gateway for the Lambda function and check the `Use L
 ## Routes
 Routes are used to match a request to a given handler and are easily defined by the route method on the instance of the router. The route method takes one object parameter which should contain 3 keys.
 
-| Key | Type | Value |
-|---|---|---|---|
+| Key | Type | Value
+|---|---|---
 | method | string/Array | The http method the route should match for. More than one can be specified
 | path | string/Array | This should match the value of the route specified in API gateway including path parameter names
 | [handler](#handler) | Function | The handler function for the given route. Should take two parameters of [request](#request) and [response](#response).
@@ -127,6 +127,7 @@ The response parameter is used to send a response back to API gateway. This meth
 | params.statusCode | integer | The HTTP status code | 200
 | params.headers | Object | Any headers to be returned in the response. | {}
 | params.body | mixed | Your response body, whatever is specified will be `JSON.stringify`'d. If body is not set the body will be defined as the params object. | `JSON.stringify(params)`
+| params.isBase64Encoded | boolean | This is usually used for serving binary data from an API. | false
 
 Here is the recommended way to call the response method.
 ```
@@ -136,6 +137,8 @@ response({
     body: { "response-object-key": "data" },
 });
 ```
+
+More information about the proxy response object can be found on the [AWS documentation](http://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-set-up-simple-proxy.html).
 
 If any of the correct parameters are not specified, default values of empty headers, statusCode 200, and a stringified value of whatever was sent in the parameter for the body are used to make the response valid.
 
