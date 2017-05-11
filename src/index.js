@@ -78,9 +78,11 @@ export default class Alpr {
 
       responseData.statusCode = Number.isInteger(data.statusCode) ? data.statusCode : 200;
       responseData.headers = typeof data.headers === 'object' ? data.headers : {};
-      responseData.body = JSON.stringify(data.body ? data.body : data);
       if (data.isBase64Encoded) {
+        responseData.body = data.body || '';
         responseData.isBase64Encoded = true;
+      } else {
+        responseData.body = JSON.stringify(data.body || data);
       }
 
       return instancedClass.callback(null, responseData);
