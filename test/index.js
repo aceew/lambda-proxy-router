@@ -204,7 +204,7 @@ test.cb(
     t.plan(3);
     const lambdaCallback = (err, response) => {
       t.is(typeof response, 'object');
-      t.deepEqual(response.body, '{}');
+      t.deepEqual(response.body, {});
       t.true(response.isBase64Encoded);
       t.end();
     };
@@ -217,6 +217,29 @@ test.cb(
       method: data.event.httpMethod,
       path: data.event.resource,
       handler: (requestData, response) => response({ body: {}, isBase64Encoded: true }),
+    });
+  }
+);
+
+test.cb(
+  'Route handler > returns isBase64Encoded on the response object when true in response data',
+  (t) => {
+    t.plan(3);
+    const lambdaCallback = (err, response) => {
+      t.is(typeof response, 'object');
+      t.deepEqual(response.body, '');
+      t.true(response.isBase64Encoded);
+      t.end();
+    };
+
+    const alprParams = Object.assign({}, data);
+    alprParams.callback = lambdaCallback;
+
+    const alprLocal = new Alpr(alprParams);
+    alprLocal.route({
+      method: data.event.httpMethod,
+      path: data.event.resource,
+      handler: (requestData, response) => response({ isBase64Encoded: true }),
     });
   }
 );
