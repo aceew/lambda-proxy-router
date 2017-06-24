@@ -15,9 +15,33 @@ export default class Alpr {
     this.event = data.event || {};
     this.context = data.context || {};
     this.callback = data.callback;
+    this.logRequestIds();
 
     if (typeof this.callback !== 'function') {
       throw new Error('A callback must be specified.');
+    }
+  }
+
+  /**
+   * Logs the request ids from API Gateway and Lambda to make debugging requests from API Gateway
+   * easier.
+   *
+   * @return {void}
+   */
+  logRequestIds() {
+    let apiGatewayRequestId;
+    let lambdaRequestId;
+
+    if (this.event && this.event.requestContext && this.event.requestContext.requestId) {
+      apiGatewayRequestId = this.event.requestContext.requestId;
+    }
+
+    if (this.context && this.context.awsRequestId) {
+      lambdaRequestId = this.context.awsRequestId;
+    }
+
+    if (apiGatewayRequestId && lambdaRequestId) {
+      console.log(`Lambda request ID: ${lambdaRequestId}. API Gateway request ID: ${apiGatewayRequestId}`); // eslint-disable-line
     }
   }
 
