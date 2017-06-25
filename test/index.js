@@ -1,11 +1,16 @@
+import test from 'ava';
+import sinon from 'sinon';
 import Alpr from './../src/index';
 import data from './aws-data-file.json';
 
 data.callback = () => {};
-// eslint-disable-next-line
-import test from 'ava';
 
 const alprGlobal = new Alpr(data);
+const sandbox = sinon.sandbox;
+
+test.afterEach(() => {
+  sandbox.restore();
+});
 
 test('Route Matching > matches path strings and resource strings', (t) => {
   const result = alprGlobal.routeMatcher({
@@ -269,4 +274,20 @@ test.cb(
 test('String Matching > will return false when no params are provided', (t) => {
   // Just for default params
   t.is(Alpr.inArrayOrIsString(), false);
+});
+
+test('Logging request ids > Logs out the ids when they are available', (t) => {
+  const spy = sandbox.spy(console, 'log');
+
+  alprGlobal.logRequestIds();
+  const consoleLog = spy.getCall(0).args[0];
+  t.true(consoleLog.includes(data.event.requestContext.requestId));
+  t.true(consoleLog.includes(data.context.awsRequestId));
+});
+
+test('Logging request ids > Does not log out the ids when they are not available', (t) => {
+  const alprLocal = new Alpr({ callback: () => {} });
+  alprLocal.logRequestIds();
+  const spy = sandbox.spy(console, 'log');
+  t.false(spy.calledOnce);
 });

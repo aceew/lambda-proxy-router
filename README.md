@@ -6,6 +6,8 @@
 
 The purpose of this package is to easily organize the mapping between your code and your API request within Lambda functions that have more than one purpose. This takes away the need for the configuration of mapping templates and handles the standard event object that Amazon sends through with Lambda functions with proxy configuration. The desired effect of the package is to make it easier to build microservices that have multiple API Gateway endpoints.
 
+As this package relates to linking API Gateway and Lambda together, the request IDs for both services are logged out to CloudWatch so when an error occurs in API Gateway, you can search the for the Gateway request ID to find the logs. More information on this can be found [here](https://aws.amazon.com/blogs/compute/techniques-and-tools-for-better-serverless-api-logging-with-amazon-api-gateway-and-aws-lambda/).
+
 ## Contents
 - [Usage](#usage)
 - [Defining Routes](#routes)
