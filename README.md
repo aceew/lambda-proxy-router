@@ -28,7 +28,7 @@ $ yarn add alpr
 
 Lambda index handler:
 
-```
+```javascript
 import Alpr from 'alpr';
 
 function handler(event, context, callback) {
@@ -132,7 +132,7 @@ The response parameter is used to send a response back to API gateway. This meth
 | params.isBase64Encoded | boolean | This is usually used for serving binary data from an API. | false
 
 Here is the recommended way to call the response method.
-```
+```javascript
 response({
     statusCode: 200,
     headers: { "x-your-header": "header value" },
@@ -145,7 +145,7 @@ More information about the proxy response object can be found on the [AWS docume
 If any of the correct parameters are not specified, default values of empty headers, statusCode 200, and a stringified value of whatever was sent in the parameter for the body are used to make the response valid.
 
 So `response('hello world')` would work out as:
-```
+```javascript
 {
     statusCode: 200,
     headers: {},
